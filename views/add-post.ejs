@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <title><%= title %></title>
+</head>
+<body>
+   <div class="container">
+       <h2><%= msg %></h2>
+
+       <form action="/save-post" method="POST"> 
+        <div class="mb-3">
+          <label for="post-title" class="form-label">Post Title</label>
+          <input type="text" class="form-control" id="post-title" name="title">
+        </div>
+        <div class="mb-3">
+          <label for="post-excerpt" class="form-label">Excerpt</label>
+          <input type="text" class="form-control" id="post-excerpt" name="excerpt">
+        </div>
+        <div class="mb-3">
+          <label for="post-excerpt" class="form-label">Body</label>
+          <input type="textarea" class="form-control" id="post-body" name="body">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+   </div> 
+</body>
+</html>
