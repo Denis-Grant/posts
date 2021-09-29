@@ -1,5 +1,18 @@
+* {
+    /* border: 1px dotted pink; */
+}
 body {
 }
 form {
     max-width: 60%;
+}
+.bi-trash {
+    color: red !important;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+.edit-btn {
+    color: green !important;
+    cursor: pointer;
+    font-size: 1.5rem;
 }

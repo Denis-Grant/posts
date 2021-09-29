@@ -1,0 +1,55 @@
+<%- include('./partials/header')  %>
+
+   <div class="container">
+      <h4><%= title %></h4>
+      <h2 class='mt-5'><%= post.title %></h2>
+      <p class='mt-1'><%= post.excerpt %></p>
+      <p class='mt-1'><%= post.body %></p>
+      <a class='pr-3'><i class="bi bi-trash del-btn" data-doc="<%= post._id %>"></i></a>
+      <a class='pr-3'><i class="bi bi-pencil-square edit-btn" data-doc="<%= post._id %>"></i></a>
+
+
+   <form class="my-5" action="" method="POST"> 
+    <div class="mb-3">
+      <label for="post-title" class="form-label">Post Title</label>
+      <input type="text" class="form-control" id="post-title" name="title" value="<%= post.title %>">
+    </div>
+    <div class="mb-3">
+      <label for="post-excerpt" class="form-label">Excerpt</label>
+      <input type="text" class="form-control" id="post-excerpt" name="excerpt" value="<%= post.excerpt %>">
+    </div>
+    <div class="mb-3">
+      <label for="post-excerpt" class="form-label">Body</label>
+      <input type="textarea" class="form-control" id="post-body" name="body" value="<%= post.body %>">
+    </div>
+
+    <button type="submit" class="btn btn-success">Update</button>
+  </form>
+</div> 
+   <script>
+     const form = document.querySelector('form').style.display = 'none';
+    //  document.querySelector('.del-btn').addEventListener('click', (e)=>{
+    //   let id = e.target.dataset.doc
+    //   const endpoint = `/posts/${id}`
+    //   console.log(endpoint)
+    //   fetch(endpoint,{
+    //     method: 'DELETE'
+    //   })
+    //   .then((response) => response.json()).
+    //   then((data) => window.location.href = data.redirect)
+    //   .catch(err => console.log(err))
+    // })
+     document.querySelector('.edit-btn').addEventListener('click', (e)=>{
+      let form =  document.querySelector('form')
+      form.style.display = 'block';
+      form.action = '/update-post/<%= post._id %>'
+      })
+
+      document.querySelector('.del-btn').addEventListener('click', (e)=>{
+      let form =  document.querySelector('form')
+      form.action = '/delete-post/<%= post._id %>'
+      form.submit();
+      })
+    
+   </script>
+<%- include('./partials/footer')  %>

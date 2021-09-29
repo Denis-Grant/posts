@@ -20,8 +20,6 @@ mongoose.connect(process.env.URISTRING)
 // register view engine
 app.set('view engine', 'ejs')
 
-
-
 // middleware & static files
 app.use(express.static('public'))
 app.use(express.urlencoded({extended: true}))
@@ -29,23 +27,22 @@ app.use(express.urlencoded({extended: true}))
 
 
 app.get('/', (req, res)=>{
-    res.render('index', {title: "Homey"})
+    // res.render('index', {title: "Homey"})
+    res.redirect('/posts')
 })
 
 app.get('/add-post', (req, res)=>{
     res.render('add-post', {title: "Add Post", msg: "Add Post"})
-    // const post = new Post({
-    //     title: "My FOURTH post!",
-    //     excerpt: "Placeholder for excerpt",
-    //     body: "Testing teing one, two three................!"
-    // })
-    // post.save()
-    // .then((result)=>{
-    //      res.send(result)   
-    // })
-    // .catch((err)=>{
-    //     console.log('Error')
-    // })
+})
+
+app.get('/posts', (req, res)=>{
+    Post.find().sort({createdAt: -1})
+    .then((result)=>{
+        res.render('posts', {title: 'Posts', posts: result})
+    })
+    .catch((err)=>{
+
+    })
 })
 
 app.post('/save-post', (req, res)=>{
@@ -58,13 +55,75 @@ app.post('/save-post', (req, res)=>{
         console.log(err)
     })
 })
-app.get('/posts', (req, res)=>{
-    Post.find().sort({createdAt: -1})
+
+app.get('/posts/:id', (req, res)=>{
+    Post.findById(req.params.id)
     .then((result)=>{
-        // res.send(result)
-        res.render('posts', {title: 'Posts Page', posts: result})
+        res.render('single-post', {title: 'Single Post', post: result})
     })
     .catch((err)=>{
-
+        console.log(err)
     })
+})
+// app.delete('/posts/:id', (req, res)=>{
+//     Post.findByIdAndDelete(req.params.id)
+//     .then((result)=>{
+//         res.json({redirect: '/posts'})
+//     })
+//     .catch((err)=>{
+//         console.log(err)
+//     })
+// })
+app.post('/delete-post/:id', (req, res)=>{
+    Post.findByIdAndDelete(req.params.id)
+    .then((result)=>{
+        res.redirect('/posts')
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+})
+app.post('/update-post/:id', (req, res)=>{
+        const post = new Post(req.body)
+        const id = req.params.id
+        console.log('UPDATING POST',id)
+        Post.findByIdAndUpdate(id,    
+            {title: post.title, 
+            excerpt: post.excerpt,
+            body: post.body})
+            .then((r)=>{
+                res.redirect('/posts')
+            })
+    .catch((err)=>{
+        console.log(err)
+    })
+    // Post.findByIdAndDelete(req.params.id)
+    // .then((result)=>{
+    //     res.json({redirect: '/posts'})
+    // })
+    // .catch((err)=>{
+    //     console.log(err)
+    // })
+})
+
+app.put('/posts/:id', (req, res)=>{
+    Post.findById(req.params.id)
+    .then ((result)=>{
+        res.render('edit-post', {title: 'Edit Post', msg: 'Editing', post: result})
+        console.log(result)
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+    // Post.findByIdAndDelete(req.params.id)
+    // .then((result)=>{
+    //     res.json({redirect: '/posts'})
+    // })
+    // .catch((err)=>{
+    //     console.log(err)
+    // })
+})
+
+app.get('*', (req, res)=>{
+    res.redirect('/posts')
 })
