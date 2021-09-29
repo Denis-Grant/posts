@@ -6,10 +6,15 @@ dotenv.config()
 const Post = require('./models/post');
 
 // const uri = ''
+
+let port = process.env.PORT
+if (port == null || port =="") {
+    port = 3000
+}
 mongoose.connect(process.env.URISTRING)
     .then((result)=>{
         // listen for requests
-        app.listen(3000)
+        app.listen(port)
     })
     .catch((err)=>{
         console.log(err)
