@@ -12,7 +12,6 @@ if (port == null || port =="") {
     port = 3000
 }
 mongoose.connect(process.env.URISTRING)
-// mongoose.connect('mongodb+srv://root:test1234@cluster0.zpk7j.mongodb.net/DailyPost?retryWrites=true&w=majority')
     .then((result)=>{
         // listen for requests
         app.listen(port)
