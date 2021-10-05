@@ -22,18 +22,17 @@ mongoose.connect(process.env.URISTRING)
 
 
 
-// register view engine
+// register view engine ejs
 app.set('view engine', 'ejs')
 
 // middleware & static files
-app.use(express.static('public'))
-app.use(express.urlencoded({extended: true}))
+app.use(express.static('public')) // allow browser access to public directory
+app.use(express.urlencoded({extended: true})) // allow form data to be available
 
 
 
 app.get('/', (req, res)=>{
-    // res.render('index', {title: "Homey"})
-    res.redirect('/posts')
+     res.redirect('/posts')
 })
 
 app.get('/add-post', (req, res)=>{
